@@ -1,94 +1,77 @@
+// Usando o algoritmo de Union Find (DSU)
 #include <stdio.h>
 #include <stdlib.h>
 
-int **create_matrix(int n) {
-  int **matrix = (int **)malloc(n * sizeof(int *));
-
-  for (int i = 0; i < n; i++) {
-    matrix[i] = (int *)malloc(n * sizeof(int));
-  }
-
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      matrix[i][j] = 0;
-    }
-  }
-  return matrix;
+int parent[26]; // qntd de elementos ('a' até 'z' -> 27)
+int ASCII = 97;
+// Inicializar todos os "pais", onde cada elemento é o seu próprio "pai"
+void initialize(int n) {
+  for (int i = 0; i < n; i++)
+    parent[i] = i;
 }
 
-void print_matrix(int **matrix, int n, int m) {
-  for (int i = 0; i < m; i++) {
-    for (int j = 0; j < n; j++) {
-      printf("%d ", matrix[i][j]);
-    }
-    printf("\n");
+int find(int i) {
+  if (parent[i] == i)
+    return i;
+
+  parent[i] = find(parent[i]);
+
+  return parent[i];
+}
+
+void unite(int a, int b) {
+  int parent_a = find(a);
+  int parent_b = find(b);
+
+  if (parent_a != parent_b) {
+    parent[parent_a] = parent_b;
   }
 }
 
-void free_matrix(int **m, int n) {
+void printList(int n) {
+
+  int visited[26] = {0};
+  int cont = 0;
+
   for (int i = 0; i < n; i++) {
-    free(m[i]);
+    if (visited[i] == 0) {
+      cont++;
+
+      int representative = find(i);
+
+      for (int j = 0; j < n; j++) {
+        if (find(j) == representative) {
+          printf("%c,", (char)(j + ASCII));
+          visited[j] = 1;
+        }
+      }
+      printf("\n");
+    }
   }
-  free(m);
+  printf("%d connected components\n\n", cont);
 }
 
 int main() {
-  int N, n, m, idx1, idx2, ASCII = 97;
-  char c1, c2;
-  scanf("%d", &N);
 
-  for (int i = 0; i < N; i++) {
+  int num, n, m, idx_a, idx_b;
+  char a, b;
+
+  scanf("%d", &num);
+
+  for (int i = 1; i <= num; i++) {
     scanf("%d %d", &n, &m);
 
-    int **matrix = create_matrix(n);
-    int qntd;
-    int total = 0;
-    print_matrix(matrix, n, qntd);
+    initialize(n);
 
     for (int j = 0; j < m; j++) {
-      scanf(" %c %c", &c1, &c2);
-      idx1 = (int)c1 - ASCII;
-      idx2 = (int)c2 - ASCII;
+      scanf(" %c %c", &a, &b);
 
-      if (j == 0) {
-        matrix[0][idx1] = 1;
-        matrix[0][idx2] = 1;
-        qntd = 1;
-        continue;
-      }
+      idx_a = (int)a - ASCII;
+      idx_b = (int)b - ASCII;
 
-      int found = 0;
-      for (int k = 0; k < qntd; k++) {
-        if (matrix[k][idx1] == 1 || matrix[k][idx2] == 1) {
-          matrix[k][idx1] = 1;
-          matrix[k][idx2] = 1;
-          found = 1;
-          break;
-        }
-      }
-
-      if (!found) {
-        if (qntd < n) {
-          matrix[qntd][idx1] = 1;
-          matrix[qntd][idx2] = 1;
-        }
-      }
+      unite(idx_a, idx_b);
     }
-    for (int i = 0; i < n; i++) {
-      int zero = 1;
-      for (int j = 0; j < qntd; j++) {
-        if (matrix[j][i] == 1) {
-          zero = 0;
-        }
-      }
-      if (zero) {
-        matrix[i][i] = 1;
-      }
-    }
-    printf("Case #%d:\n", i + 1);
-    print_matrix(matrix, n, n);
-    free_matrix(matrix, n);
+    printf("Case #%d:\n", i);
+    printList(n);
   }
-
-  return 0;
 }
