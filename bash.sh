@@ -17,7 +17,7 @@ if [[ -z $CATEGORY || -z $TITLE || -z $NUMBER ]]; then
     exit 1
 fi
 
-FOLDER_NAME="${NUMBER} - ${TITLE// /_}" 
+FOLDER_NAME="${NUMBER} - ${TITLE// /' '}" 
 FULL_PATH="$BASE_DIR/$CATEGORY/$FOLDER_NAME"
 
 if [ ! -d "$BASE_DIR/$CATEGORY" ]; then

@@ -1,4 +1,8 @@
-a = parse(Int, readline())
-b = parse(Int, readline())
-c = a+b 
-println("SOMA = $c")
+function main()
+  a = parse(Int, readline())
+  b = parse(Int, readline())
+  c = a+b 
+  println("SOMA = $c")
+end
+
+main()
