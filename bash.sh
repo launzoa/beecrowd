@@ -1,15 +1,15 @@
 BASE_DIR="$(pwd)"
 
-clear 
+clear
 
 echo  "Category: "
-read CATEGORY 
+read CATEGORY
 
 echo  "Number: "
-read NUMBER 
+read NUMBER
 
 echo  "Title: "
-read TITLE 
+read TITLE
 
 if [[ -z $CATEGORY || -z $TITLE || -z $NUMBER ]]; then
     echo "Error: All fields are required."
@@ -17,7 +17,7 @@ if [[ -z $CATEGORY || -z $TITLE || -z $NUMBER ]]; then
     exit 1
 fi
 
-FOLDER_NAME="${NUMBER} - ${TITLE// /' '}" 
+FOLDER_NAME="${NUMBER} - ${TITLE// /' '}"
 FULL_PATH="$BASE_DIR/$CATEGORY/$FOLDER_NAME"
 
 if [ ! -d "$BASE_DIR/$CATEGORY" ]; then
@@ -27,11 +27,11 @@ fi
 
 
 mkdir -p "$FULL_PATH"
-cd "$FULL_PATH" || exit 
+cd "$FULL_PATH" || exit
 
 PREFIX="bee${NUMBER}"
 
-# C++ 
+# C++
 cat <<EOF > "${PREFIX}.cpp"
 // Beecrowd ${NUMBER} - ${TITLE}
 #include <iostream>
@@ -39,9 +39,9 @@ cat <<EOF > "${PREFIX}.cpp"
 using namespace std;
 
 int main() {
-    
+
     // Sua lógica aqui
-    
+
     return 0;
 }
 EOF
@@ -51,7 +51,7 @@ cat <<EOF > "${PREFIX}.jl"
 # Beecrowd ${NUMBER} - ${TITLE}
 
 function main()
-    
+
 end
 
 main()
@@ -76,7 +76,7 @@ cat <<EOF > "${PREFIX}.java"
 
 public class ${PREFIX} {
     public static void main(String[] args) {
-        
+
     }
 }
 EOF
@@ -87,7 +87,7 @@ cat <<EOF > "${PREFIX}.c"
 #include <stdio.h>
 
 int main() {
-    
+
     return 0;
 }
 EOF
@@ -96,5 +96,5 @@ EOF
 echo "Structure successfully created at: $FULL_PATH"
 ls -la
 
-echo "Press Enter to continue..." 
-read CONTINUE 
+echo "Press Enter to continue..."
+read CONTINUE
