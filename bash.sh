@@ -34,13 +34,13 @@ PREFIX="bee${NUMBER}"
 # C++
 cat <<EOF > "${PREFIX}.cpp"
 // Beecrowd ${NUMBER} - ${TITLE}
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 int main() {
-
-    // Sua lógica aqui
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
     return 0;
 }
